@@ -1,12 +1,22 @@
-col1, col2 = st.columns([1, 1.2])
+import streamlit as st
 
-with col1:
-    st.image("https://raw.githubusercontent.com/OmarMoudni/chefs-choice-app/main/assets/saveur_header.png", use_column_width=True)
+# Configuration générale
+st.set_page_config(page_title="SaveurMagique", layout="wide")
 
-with col2:
-    st.markdown("""
-        <div style='margin-top:100px;'>
-            <h1 style='font-size:50px; color:#2F2F2F;'>DES RECETTES<br>QUE POUR VOUS</h1>
-            <p style='color:#666;'>RENDEZ-VOUS SUR L’APPLICATION MOBILE 📱</p>
-        </div>
-    """, unsafe_allow_html=True)
+# ---------- Barre de navigation ----------
+st.markdown("""
+    <style>
+        .topnav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 15px 30px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 17px;
+        }
+        .topnav .left, .topnav .right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
