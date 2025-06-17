@@ -35,11 +35,37 @@ def recommander_recette(ingredients_utilisateur):
     return df.iloc[top_indices][['name', 'ingredients']]
 
 # Interface
-st.set_page_config(page_title="Chef's Choice", layout="centered")
-# Titre et sous-titre
-st.title("🍽️ Chef’s Choice")
-st.subheader("Des recettes que pour vous 🍲")
-st.write("Entrez vos préférences ci-dessous pour recevoir les meilleures suggestions de recettes.")
+st.set_page_config(page_title="Chef's Choice", layout="wide")
+
+# Style CSS
+st.markdown(
+    """
+    <style>
+    .big-title {
+        font-size: 50px;
+        font-weight: 800;
+        color: #2e2e2e;
+        padding-top: 50px;
+    }
+    .subtext {
+        font-size: 16px;
+        color: #666;
+        margin-top: 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Image + texte en 2 colonnes
+col1, col2 = st.columns([1.2, 1.8])
+
+with col1:
+    st.image("https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1200&q=80", use_column_width=True)
+
+with col2:
+    st.markdown('<div class="big-title">DES RECETTES<br>QUE POUR VOUS</div>', unsafe_allow_html=True)
+    st.markdown('<div class="subtext">Rendez-vous sur l\'application mobile 📱</div>', unsafe_allow_html=True)
 
 # Formulaire utilisateur
 with st.form("profil_formulaire"):
