@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Configuration de la page
-st.set_page_config(page_title="FlavorMatch", layout="wide")
+st.set_page_config(page_title="RecetteMagique", layout="wide")
 
 # ---------- Barre de navigation ----------
 st.markdown("""
@@ -33,7 +33,7 @@ st.markdown("""
     </style>
     <div class="topnav">
         <div class="left">
-            <img src="https://via.placeholder.com/100x40?text=FlavorMatch" alt="logo">
+            <img src="https://via.placeholder.com/100x40?text=RecetteMagique" alt="logo">
             <a href="#">Accueil</a>
             <a href="#">Menu</a>
             <a href="#">Recettes</a>
@@ -50,12 +50,12 @@ st.markdown("""
 col1, col2 = st.columns([1, 1.2])
 
 with col1:
-    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Cutting_board_with_mushrooms.jpg/640px-Cutting_board_with_mushrooms.jpg", use_column_width=True)
+    st.image("https://raw.githubusercontent.com/OmarMoudni/chefs-choice-app/main/assets/header_mushrooms.png", use_column_width=True)
 
 with col2:
     st.markdown("""
         <div style='margin-top:100px;'>
-            <h1 style='font-size:50px; color:#3c3c3c;'>DES RECETTES<br>QUE POUR VOUS</h1>
-            <p style='color:#777;'>RENDEZ-VOUS SUR L’APPLICATION MOBILE 📱</p>
+            <h1 style='font-size:50px; color:#2F2F2F;'>DES RECETTES<br>QUE POUR VOUS</h1>
+            <p style='color:#666;'>RENDEZ-VOUS SUR L’APPLICATION MOBILE 📱</p>
         </div>
     """, unsafe_allow_html=True)
