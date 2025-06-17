@@ -1,119 +1,109 @@
 import streamlit as st
-import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 
-# === CONFIGURATION DE LA PAGE ===
+# Configuration de la page
 st.set_page_config(page_title="Chef's Choice", layout="wide")
 
-# === STYLES CSS ===
+# Style CSS custom pour design haut de gamme
 st.markdown("""
     <style>
-    .big-title {
-        font-size: 50px;
-        font-weight: 800;
-        color: #2e2e2e;
-        padding-top: 50px;
-    }
-    .subtext {
-        font-size: 16px;
-        color: #666;
-        margin-top: 10px;
-    }
-    .nav {
-        background-color: #f9f9f9;
-        padding: 10px 30px;
-        border-bottom: 1px solid #ddd;
-        margin-bottom: 20px;
-    }
-    .nav a {
-        margin-right: 20px;
-        text-decoration: none;
-        font-weight: bold;
-        color: #444;
-    }
-    .nav a:hover {
-        color: #ff4b4b;
-    }
+    body { background-color: #fcf9f2; }
+    .title-section { font-size: 44px; font-weight: 800; margin-bottom: 0; color: #2e2e2e; }
+    .subtitle-section { font-size: 20px; margin-top: 0; color: #4d4d4d; }
+    .centered { display: flex; justify-content: center; text-align: center; }
+    .card { border-radius: 12px; padding: 20px; background-color: white; box-shadow: 0px 2px 15px rgba(0,0,0,0.1); }
+    .menu-block { border-radius: 20px; overflow: hidden; position: relative; text-align: center; color: white; font-weight: bold; font-size: 24px; }
+    .menu-block img { width: 100%; height: 320px; object-fit: cover; }
+    .menu-block div { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
     </style>
 """, unsafe_allow_html=True)
 
-# === MENU DE NAVIGATION ===
+# Header navigation
 st.markdown("""
-    <div class="nav">
-        <a href="#">Accueil</a>
-        <a href="#">Recettes</a>
-        <a href="#">Mon Profil</a>
+    <div style='display: flex; justify-content: space-between; align-items: center; padding: 10px 0;'>
+        <div style='font-weight: bold; font-size: 24px;'>Chef'sChoice</div>
+        <div>
+            <input type='text' placeholder='Trouver la recette qui vous fait envie ..' style='padding: 5px 10px; border-radius: 5px; border: 1px solid #ddd;'>
+            <a style='margin-left: 20px;' href='#'>Accueil</a>
+            <a style='margin-left: 10px;' href='#'>Menu</a>
+            <a style='margin-left: 10px;' href='#'>Recettes</a>
+            <a style='margin-left: 10px;' href='#'>♥</a>
+            <a style='margin-left: 10px;' href='#'>👤</a>
+        </div>
     </div>
+    <hr>
 """, unsafe_allow_html=True)
 
-# === EN-TÊTE : IMAGE + TITRE ===
-col1, col2 = st.columns([1.2, 1.8])
+# Section d’accueil
+col1, col2 = st.columns([1.1, 1.9])
 
 with col1:
-    st.image("https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1200&q=80", use_column_width=True)
+    st.image("https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=700&q=80")
 
 with col2:
-    st.markdown('<div class="big-title">DES RECETTES<br>QUE POUR VOUS</div>', unsafe_allow_html=True)
-    st.markdown('<div class="subtext">Rendez-vous sur l\'application mobile 📱</div>', unsafe_allow_html=True)
+    st.markdown("""
+        <p class="title-section">DES RECETTES <br> QUE POUR VOUS</p>
+        <p class="subtitle-section">Rendez-vous sur l'application mobile 📱</p>
+    """, unsafe_allow_html=True)
 
-# === DONNÉES RECETTES ===
-data = {
-    'name': [
-        'Tajine de poulet au citron',
-        'Pâtes au saumon',
-        'Salade quinoa avocat',
-        'Couscous aux légumes',
-        'Pizza végétarienne',
-    ],
-    'ingredients': [
-        'poulet citron olives oignon ail huile épices',
-        'pâtes saumon crème fraîche citron aneth',
-        'quinoa avocat tomate concombre citron huile',
-        'semoule carotte courgette pois chiches navet épices',
-        'pâte à pizza poivron champignon oignon mozzarella tomate'
-    ]
-}
-df = pd.DataFrame(data)
-df['ingredients'] = df['ingredients'].str.lower()
+# Section profil utilisateur
+st.markdown("### 👤 Créer votre profil")
+col1, col2 = st.columns(2)
 
-# === VECTORIZATION ===
-vectorizer = TfidfVectorizer()
-X = vectorizer.fit_transform(df['ingredients'])
+with col1:
+    nom = st.text_input("Nom complet", "Omar Moudni")
+    email = st.text_input("Email", "omar@email.com")
+    mdp = st.text_input("Mot de passe", type="password")
 
-# === FONCTION DE RECOMMANDATION ===
-def recommander_recette(ingredients_utilisateur):
-    user_vec = vectorizer.transform([ingredients_utilisateur.lower()])
-    sim_scores = cosine_similarity(user_vec, X).flatten()
-    top_indices = sim_scores.argsort()[::-1][:3]
-    return df.iloc[top_indices][['name', 'ingredients']]
+with col2:
+    st.image("https://images.unsplash.com/photo-1562967916-eb82221dfb36", width=320)
 
-# === FORMULAIRE UTILISATEUR ===
-with st.form("profil_formulaire"):
-    st.markdown("### 👤 Créez votre profil")
+if st.button("Suivant"):
+    st.success(f"Bonjour {nom} 👋")
 
-    col1, col2 = st.columns(2)
-    sexe = col1.radio("Sexe", ["Femme", "Homme"])
-    pays = col2.text_input("Pays d’origine")
+# Section Menu Catégories
+st.markdown("""
+    <h2 style='text-align: center;'>AU MENU</h2>
+""", unsafe_allow_html=True)
+col1, col2, col3 = st.columns(3)
 
-    col3, col4 = st.columns(2)
-    allergies = col3.multiselect("Allergies et intolérances", ["Aucune", "Gluten", "Lactose", "Fruits à coque", "Œufs", "Poisson"])
-    regime = col4.selectbox("Régime alimentaire", ["Aucun", "Végétarien", "Vegan", "Sans gluten", "Halal", "Casher"])
-    preferences = st.multiselect("Préférences gastronomiques", ["Cuisine marocaine", "Cuisine italienne", "Cuisine asiatique", "Cuisine indienne", "Cuisine française"])
+with col1:
+    st.markdown("""
+        <div class='menu-block'>
+            <img src='https://images.unsplash.com/photo-1605475122014-7c55a04630a6' />
+            <div>Plats gourmets</div>
+        </div>
+    """, unsafe_allow_html=True)
 
-    bouton_profil = st.form_submit_button("Suivant ➡️")
+with col2:
+    st.markdown("""
+        <div class='menu-block'>
+            <img src='https://images.unsplash.com/photo-1603052877564-5bbf9b9442b5' />
+            <div>Salades</div>
+        </div>
+    """, unsafe_allow_html=True)
 
-# === SI FORMULAIRE VALIDÉ ===
-if bouton_profil:
-    st.success(f"Bonjour {sexe} de {pays} 👋")
-    st.markdown("### 🧺 Entrez vos ingrédients")
+with col3:
+    st.markdown("""
+        <div class='menu-block'>
+            <img src='https://images.unsplash.com/photo-1599785209798-cd3c3bd09d9c' />
+            <div>Desserts</div>
+        </div>
+    """, unsafe_allow_html=True)
 
-    ingredients = st.text_input("Ingrédients (ex: poulet, citron, ail)")
+# Section Recettes proposées
+st.markdown("""
+    <h2 style='text-align: center;'>Cela peut vous intéresser..</h2>
+""", unsafe_allow_html=True)
+col1, col2, col3 = st.columns(3)
 
-    if st.button("🔍 Trouver des recettes"):
-        if not ingredients.strip():
-            st.warning("Veuillez saisir des ingrédients.")
-        else:
-            resultats = recommander_recette(ingredients)
-            st.success("Voici les recettes recommandées :")
-            st.dataframe(resultats.reset_index(drop=True))
+with col1:
+    st.image("https://images.unsplash.com/photo-1604908554044-7d00548ef5a5")
+    st.caption("Cabillaud rôti au four ♡")
+
+with col2:
+    st.image("https://images.unsplash.com/photo-1606491956689-2b9c0e6611e4")
+    st.caption("Tajine de boulettes de viande hachée ♡")
+
+with col3:
+    st.image("https://images.unsplash.com/photo-1613145998971-6d8a74c5d017")
+    st.caption("Saumon grillé ♡")
