@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="SaveurMagique", layout="wide")
 
-# Navigation
+# Navigation HTML
 st.markdown("""
     <style>
         .topnav {
@@ -31,6 +31,7 @@ st.markdown("""
             font-size: 15px;
         }
     </style>
+
     <div class="topnav">
         <div class="left">
             <img src="https://raw.githubusercontent.com/OmarMoudni/chefs-choice-app/main/assets/logo.png" alt="logo" width="100">
@@ -46,14 +47,16 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Section visuelle
+# Image + texte d'accueil
 col1, col2 = st.columns([1, 1.3])
 
 with col1:
     st.image("https://raw.githubusercontent.com/OmarMoudni/chefs-choice-app/main/assets/saveur_header.png", use_container_width=True)
 
 with col2:
-    st.markdown(
-        """
+    st.markdown("""
         <div style='margin-top:100px;'>
-            <h
+            <h1 style='font-size:52px; color:#2F2F2F; font-weight:800;'>DES RECETTES<br>QUE POUR VOUS</h1>
+            <p style='color:#444; font-size:16px; margin-top:15px;'>RENDEZ-VOUS SUR L’APPLICATION MOBILE 📱</p>
+        </div>
+    """, unsafe_allow_html=True)
