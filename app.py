@@ -36,16 +36,51 @@ def recommander_recette(ingredients_utilisateur):
 
 # Interface
 st.set_page_config(page_title="Chef's Choice", layout="centered")
+# Titre et sous-titre
 st.title("🍽️ Chef’s Choice")
 st.subheader("Des recettes que pour vous 🍲")
-st.write("Entrez vos ingrédients pour recevoir les meilleures suggestions de recettes.")
+st.write("Entrez vos préférences ci-dessous pour recevoir les meilleures suggestions de recettes.")
 
-ingredients = st.text_input("🧺 Ingrédients (ex: poulet, citron, ail)")
+# Formulaire utilisateur
+with st.form("profil_formulaire"):
+    st.markdown("### 👤 Créez votre profil")
+    
+    col1, col2 = st.columns(2)
+    sexe = col1.radio("Sexe", ["Femme", "Homme"])
+    pays = col2.text_input("Pays d’origine")
 
-if st.button("🔍 Trouver des recettes"):
-    if not ingredients.strip():
-        st.warning("Veuillez saisir des ingrédients.")
-    else:
+    col3, col4 = st.columns(2)
+    allergies = col3.multiselect(
+        "Allergies et intolérances",
+        ["Aucune", "Gluten", "Lactose", "Fruits à coque", "Œufs", "Poisson"]
+    )
+
+    regime = col4.selectbox(
+        "Régime alimentaire",
+        ["Aucun", "Végétarien", "Vegan", "Sans gluten", "Halal", "Casher"]
+    )
+
+    preferences = st.multiselect(
+        "Préférences gastronomiques",
+        ["Cuisine marocaine", "Cuisine italienne", "Cuisine asiatique", "Cuisine indienne", "Cuisine française"]
+    )
+
+    bouton_profil = st.form_submit_button("Suivant ➡️")
+
+# Une fois que l’utilisateur a cliqué
+if bouton_profil:
+    st.success(f"Bonjour {sexe} de {pays} 👋")
+    st.markdown("### 🧺 Entrez vos ingrédients")
+    ingredients = st.text_input("Ingrédients (ex: poulet, citron, ail)")
+
+    if st.button("🔍 Trouver des recettes"):
+        if not ingredients.strip():
+            st.warning("Veuillez saisir des ingrédients.")
+        else:
+            resultats = recommander_recette(ingredients)
+            st.success("Voici les recettes recommandées :")
+            st.dataframe(resultats.reset_index(drop=True))
+
         resultats = recommander_recette(ingredients)
         st.success("Voici les recettes recommandées :")
         st.dataframe(resultats.reset_index(drop=True))
